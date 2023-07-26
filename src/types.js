@@ -36,6 +36,9 @@ export function expandPaddingKeys(props) {
  * @param props
  */
 export function expandAllKeys(props) {
-    return expandPaddingKeys(expandMarginKeys(props));
+    return {
+        ...expandMarginKeys(props),
+        ...expandPaddingKeys(props)
+    };
 }
 //# sourceMappingURL=types.js.map

@@ -81,6 +81,9 @@ export type PropsWithMarginAndPaddingF = PropsWithMarginF & PropsWithPaddingF;
  * @param props
  */
 export function expandAllKeys(props: PropsWithMarginAndPadding | any): PropsWithMarginAndPaddingF {
-    return expandPaddingKeys(expandMarginKeys(props));
+    return {
+        ...expandMarginKeys(props),
+        ...expandPaddingKeys(props)
+    };
 }
 export type DefaultProps = PropsWithChildren & PropsWithMarginAndPadding;
