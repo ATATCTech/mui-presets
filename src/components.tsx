@@ -155,7 +155,7 @@ export function ConfirmDialog(props: {
     );
 }
 
-export function Profile(props: { username: string, profile: string, onClick: MouseEventHandler }): ReactNode {
+export function Profile(props: { username: string, profile: string, onClick?: MouseEventHandler }): ReactNode {
     return (
         props.username == null || props.username.length < 0 ?
             <Person onClick={props.onClick}/> :
