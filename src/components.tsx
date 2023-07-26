@@ -24,13 +24,13 @@ import {Lightbulb, Person} from "@mui/icons-material";
 import {MouseEventHandler, ReactNode, useState} from "react";
 import {
     AnonymousEventHandler,
-    DefaultProps,
+    DefaultProps, expandAllKeys,
     PropsWithChildren,
     PropsWithOpen,
     PropsWithStatus
 } from "./types";
 
-export function Center(props: PropsWithChildren) {
+export function Center(props: PropsWithChildren): ReactNode {
     return (
         <Box width={1} display="flex" flexDirection="column" alignItems="center" {...props}>
             {props.children}
@@ -38,7 +38,7 @@ export function Center(props: PropsWithChildren) {
     );
 }
 
-export function Column(props: { children: Iterable<ReactNode> }) {
+export function Column(props: { children: Iterable<ReactNode> }): ReactNode {
     const [...children] = props.children;
     return (
         <Stack direction="row" alignItems="center" {...props}>
@@ -49,23 +49,23 @@ export function Column(props: { children: Iterable<ReactNode> }) {
     );
 }
 
-export function Copyright(props: { companyName: string, startYear: string } & DefaultProps) {
+export function Copyright(props: { companyName: string, startYear: string } & DefaultProps): ReactNode {
     return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        <Typography variant="body2" color="text.secondary" align="center" {...expandAllKeys(props)}>
             Powered by <Link href="https://athena2.atatctech.com" color="inherit" underline="hover">Athena2</Link>.
             Copyright © {props.startYear} - {new Date().getFullYear()} {props.companyName} All rights reserved.
         </Typography>
     );
 }
 
-export function ErrorHint(props: PropsWithStatus) {
+export function ErrorHint(props: PropsWithStatus): ReactNode | null {
     return (
         props.status != null && props.status.length > 2 ?
             <Alert severity="error" sx={{mt: -2, mb: 2}}>{props.status.substring(2)}</Alert> : null
     );
 }
 
-export function StatusSnackbar(props: { clearStatus: AnonymousEventHandler } & PropsWithStatus) {
+export function StatusSnackbar(props: { clearStatus: AnonymousEventHandler } & PropsWithStatus): ReactNode {
     return (
         <Snackbar
             open={props.status != null && props.status.length > 2 && (props.status.startsWith("s/") || props.status.startsWith("i/") || props.status.startsWith("f/"))}
@@ -79,7 +79,7 @@ export function StatusSnackbar(props: { clearStatus: AnonymousEventHandler } & P
     );
 }
 
-export function LoadingBackdrop(props: PropsWithOpen) {
+export function LoadingBackdrop(props: PropsWithOpen): ReactNode {
     return (
         <Backdrop sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
                   open={props.open}>
@@ -88,7 +88,7 @@ export function LoadingBackdrop(props: PropsWithOpen) {
     );
 }
 
-export function PaperAtCenter(props: PropsWithChildren) {
+export function PaperAtCenter(props: PropsWithChildren): ReactNode {
     return (
         <Grid width={1} minHeight="100vh" display="flex" flexDirection="column" justifyContent="center"
               alignItems="center">
@@ -105,7 +105,7 @@ export function PaperAtCenter(props: PropsWithChildren) {
     );
 }
 
-export function MainContainer(props: PropsWithChildren) {
+export function MainContainer(props: PropsWithChildren): ReactNode {
     return (
         <Container component="main">
             <Box marginTop={2} display="flex" flexDirection="column" alignItems="center">
@@ -119,7 +119,7 @@ export function ConfirmDialog(props: {
     passcode: string,
     and: AnonymousEventHandler,
     notice?: string
-} & PropsWithChildren) {
+} & PropsWithChildren): ReactNode {
     const [open, setOpen] = useState(false);
     const [disabled, setDisabled] = useState(true);
     return (
@@ -155,7 +155,7 @@ export function ConfirmDialog(props: {
     );
 }
 
-export function Profile(props: { username: string, profile: string, onClick: MouseEventHandler }) {
+export function Profile(props: { username: string, profile: string, onClick: MouseEventHandler }): ReactNode {
     return (
         props.username == null || props.username.length < 0 ?
             <Person onClick={props.onClick}/> :
@@ -165,10 +165,10 @@ export function Profile(props: { username: string, profile: string, onClick: Mou
     );
 }
 
-export function InstructionDialog(props: DefaultProps) {
+export function InstructionDialog(props: DefaultProps): ReactNode {
     const [open, setOpen] = useState(false);
     return (
-        <Box {...props}>
+        <Box {...expandAllKeys(props)}>
             <Dialog open={open}>
                 {props.children}
                 <DialogActions>

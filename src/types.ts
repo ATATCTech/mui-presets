@@ -1,9 +1,8 @@
-import {MouseEventHandler, ReactNode} from "react";
+import {ReactNode} from "react";
 
 export type AnonymousEventHandler = () => void;
 export type PropsWithStatus = { status: string };
 export type PropsWithOpen = { open: boolean };
-export type ClickableProps = { onClick: MouseEventHandler };
 export type PropsWithChildren = { children?: ReactNode };
 export type PropsWithMargin = {
     m?: number,
@@ -14,6 +13,31 @@ export type PropsWithMargin = {
     mx?: number,
     my?: number
 };
+export type PropsWithMarginF = {
+    margin?: number,
+    marginTop?: number,
+    marginBottom?: number,
+    marginLeft?: number,
+    marginRight?: number,
+    marginX?: number,
+    marginY?: number
+};
+/**
+ * Expand every margin-related key to its full name if applicable.
+ * Note that this only leaves expanded keys.
+ * @param props
+ */
+export function expandMarginKeys(props: PropsWithMargin | any): PropsWithMarginF {
+    return {
+        margin: props?.m,
+        marginTop: props?.mt,
+        marginBottom: props?.mb,
+        marginLeft: props?.ml,
+        marginRight: props?.mr,
+        marginX: props?.mx,
+        marginY: props?.my
+    };
+}
 export type PropsWithPadding = {
     p?: number,
     pt?: number,
@@ -23,4 +47,40 @@ export type PropsWithPadding = {
     px?: number,
     py?: number
 };
-export type DefaultProps = PropsWithChildren & PropsWithMargin & PropsWithPadding;
+export type PropsWithPaddingF = {
+    padding?: number,
+    paddingTop?: number,
+    paddingBottom?: number,
+    paddingLeft?: number,
+    paddingRight?: number,
+    paddingX?: number,
+    paddingY?: number
+};
+/**
+ * Expand every padding-related key to its full name if applicable.
+ * Note that this only leaves expanded keys.
+ * @param props
+ */
+export function expandPaddingKeys(props:PropsWithPadding | any): PropsWithPaddingF {
+    return {
+        padding: props?.p,
+        paddingTop: props?.pt,
+        paddingBottom: props?.pb,
+        paddingLeft: props?.pl,
+        paddingRight: props?.pr,
+        paddingX: props?.px,
+        paddingY: props?.py
+    };
+}
+export type PropsWithMarginAndPadding = PropsWithMargin & PropsWithPadding;
+export type PropsWithMarginAndPaddingF = PropsWithMarginF & PropsWithPaddingF;
+
+/**
+ * Expand every key to its full name if applicable.
+ * Note that this only leaves expanded keys.
+ * @param props
+ */
+export function expandAllKeys(props: PropsWithMarginAndPadding | any): PropsWithMarginAndPaddingF {
+    return expandPaddingKeys(expandMarginKeys(props));
+}
+export type DefaultProps = PropsWithChildren & PropsWithMarginAndPadding;
