@@ -3,7 +3,7 @@ import {
     Avatar,
     Backdrop,
     Box,
-    Button,
+    Button, Checkbox,
     CircularProgress,
     Container,
     Dialog,
@@ -12,16 +12,16 @@ import {
     DialogContentText,
     DialogTitle,
     Grid,
-    IconButton,
-    Link,
+    IconButton, InputAdornment,
+    Link, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem,
     Paper,
     Snackbar,
     Stack,
     TextField,
     Typography
 } from "@mui/material";
-import {Lightbulb, Person} from "@mui/icons-material";
-import {MouseEventHandler, ReactNode, useState} from "react";
+import {Delete, Lightbulb, Person} from "@mui/icons-material";
+import {MouseEventHandler, ReactNode, useRef, useState} from "react";
 import {
     AnonymousEventHandler,
     DefaultProps, expandAllKeys,
@@ -29,6 +29,8 @@ import {
     PropsWithOpen,
     PropsWithStatus
 } from "./types";
+import {Athena, getUsersWith} from "@atatctech/athena-sdk";
+import {User} from "@atatctech/athena-sdk/src/types";
 
 export function Center(props: PropsWithChildren): ReactNode {
     return (
@@ -183,5 +185,55 @@ export function InstructionDialog(props: DefaultProps): ReactNode {
                 <Lightbulb/>
             </IconButton>
         </Box>
+    );
+}
+
+export function SelectUsers(props: {athena: Athena, horizontal: boolean}) {
+    const [users, setUsers] = useState<User[]>([]);
+    const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef<HTMLTextAreaElement>();
+    const athena = props.athena;
+    return (
+        <Grid container>
+            <Menu open={open} onClose={() => setOpen(false)} anchorEl={anchorRef.current}>
+                {users.map((u, i) => (
+                    JSON.stringify(selectedUsers).includes(JSON.stringify(u)) ? null :
+                        <MenuItem key={i}>
+                            <Checkbox onChange={() => setSelectedUsers(Array.from(new Set(selectedUsers).add(u)))}/>
+                            <Profile username={u.displayName as string} profile={u.profile as string}/>
+                            <Typography marginLeft={1}>@{u.name}</Typography>
+                        </MenuItem>
+                ))}
+            </Menu>
+            <Grid item sm={12} md={props.horizontal ? 5 : undefined}>
+                <TextField inputRef={anchorRef} label="Name" size="small" onKeyDown={(e) => {
+                    if (e.key !== "Enter") return;
+                    const name = (e.target as HTMLTextAreaElement).value;
+                    if (name === "") return;
+                    getUsersWith(athena, setUsers, () => {
+                    }, name, "name").catch();
+                    setOpen(true);
+                }} InputProps={{startAdornment: <InputAdornment position="start">@</InputAdornment>}}/>
+            </Grid>
+            <Grid item sm={12} md={props.horizontal ? 7 : undefined}>
+                <List dense>
+                    {selectedUsers.map((u, i) => (
+                        <ListItem key={i} secondaryAction={<IconButton edge="end" onClick={() => {
+                            const su = new Set(selectedUsers);
+                            su.delete(u);
+                            setSelectedUsers(Array.from(su));
+                        }}><Delete/></IconButton>}>
+                            <ListItemAvatar>
+                                <Avatar>
+                                    <Profile username={u.displayName as string} profile={u.profile as string}/>
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText primary={u.displayName} secondary={"@" + u.name}/>
+                        </ListItem>
+                    ))}
+                </List>
+            </Grid>
+        </Grid>
     );
 }

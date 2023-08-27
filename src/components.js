@@ -1,8 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Alert, Avatar, Backdrop, Box, Button, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, Link, Paper, Snackbar, Stack, TextField, Typography } from "@mui/material";
-import { Lightbulb, Person } from "@mui/icons-material";
-import { useState } from "react";
+import { Alert, Avatar, Backdrop, Box, Button, Checkbox, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, InputAdornment, Link, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Paper, Snackbar, Stack, TextField, Typography } from "@mui/material";
+import { Delete, Lightbulb, Person } from "@mui/icons-material";
+import { useRef, useState } from "react";
 import { expandAllKeys } from "./types";
+import { getUsersWith } from "@atatctech/athena-sdk";
 export function Center(props) {
     return (_jsx(Box, { width: 1, display: "flex", flexDirection: "column", alignItems: "center", ...props, children: props.children }));
 }
@@ -62,5 +63,27 @@ export function InstructionDialog(props) {
                             }, children: "Close" }) })] }), _jsx(IconButton, { size: "small", onClick: () => {
                     setOpen(true);
                 }, children: _jsx(Lightbulb, {}) })] }));
+}
+export function SelectUsers(props) {
+    const [users, setUsers] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef();
+    const athena = props.athena;
+    return (_jsxs(Grid, { container: true, children: [_jsx(Menu, { open: open, onClose: () => setOpen(false), anchorEl: anchorRef.current, children: users.map((u, i) => (JSON.stringify(selectedUsers).includes(JSON.stringify(u)) ? null :
+                    _jsxs(MenuItem, { children: [_jsx(Checkbox, { onChange: () => setSelectedUsers(Array.from(new Set(selectedUsers).add(u))) }), _jsx(Profile, { username: u.displayName, profile: u.profile }), _jsxs(Typography, { marginLeft: 1, children: ["@", u.name] })] }, i))) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 5 : undefined, children: _jsx(TextField, { inputRef: anchorRef, label: "Name", size: "small", onKeyDown: (e) => {
+                        if (e.key !== "Enter")
+                            return;
+                        const name = e.target.value;
+                        if (name === "")
+                            return;
+                        getUsersWith(athena, setUsers, () => {
+                        }, name, "name").catch();
+                        setOpen(true);
+                    }, InputProps: { startAdornment: _jsx(InputAdornment, { position: "start", children: "@" }) } }) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 7 : undefined, children: _jsx(List, { dense: true, children: selectedUsers.map((u, i) => (_jsxs(ListItem, { secondaryAction: _jsx(IconButton, { edge: "end", onClick: () => {
+                                const su = new Set(selectedUsers);
+                                su.delete(u);
+                                setSelectedUsers(Array.from(su));
+                            }, children: _jsx(Delete, {}) }), children: [_jsx(ListItemAvatar, { children: _jsx(Avatar, { children: _jsx(Profile, { username: u.displayName, profile: u.profile }) }) }), _jsx(ListItemText, { primary: u.displayName, secondary: "@" + u.name })] }, i))) }) })] }));
 }
 //# sourceMappingURL=components.js.map

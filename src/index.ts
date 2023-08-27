@@ -9,5 +9,6 @@ export {
     MainContainer,
     ConfirmDialog,
     Profile,
-    InstructionDialog
+    InstructionDialog,
+    SelectUsers
 } from "./components";
