@@ -3,7 +3,6 @@ import { Alert, Avatar, Backdrop, Box, Button, Checkbox, CircularProgress, Conta
 import { Delete, Lightbulb, Person } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import { expandAllKeys } from "./types";
-import { getUsersWith } from "@atatctech/athena-sdk";
 export function Center(props) {
     return (_jsx(Box, { width: 1, display: "flex", flexDirection: "column", alignItems: "center", ...props, children: props.children }));
 }
@@ -69,18 +68,17 @@ export function SelectUsers(props) {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [open, setOpen] = useState(false);
     const anchorRef = useRef();
-    const athena = props.athena;
+    const filter = props.filter == null ? "Name" : props.filter;
+    const keywordPrefix = props.keywordPrefix == null ? "@" : props.keywordPrefix;
     return (_jsxs(Grid, { container: true, children: [_jsx(Menu, { open: open, onClose: () => setOpen(false), anchorEl: anchorRef.current, children: users.map((u, i) => (JSON.stringify(selectedUsers).includes(JSON.stringify(u)) ? null :
-                    _jsxs(MenuItem, { children: [_jsx(Checkbox, { onChange: () => setSelectedUsers(Array.from(new Set(selectedUsers).add(u))) }), _jsx(Profile, { username: u.displayName, profile: u.profile }), _jsxs(Typography, { marginLeft: 1, children: ["@", u.name] })] }, i))) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 5 : undefined, children: _jsx(TextField, { inputRef: anchorRef, label: "Name", size: "small", onKeyDown: (e) => {
+                    _jsxs(MenuItem, { children: [_jsx(Checkbox, { sx: { ml: -1 }, onChange: () => setSelectedUsers(Array.from(new Set(selectedUsers).add(u))) }), _jsx(Profile, { username: u.displayName, profile: u.profile }), _jsxs(Typography, { marginLeft: 1, children: ["@", u.name] })] }, i))) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 5 : undefined, children: _jsx(TextField, { inputRef: anchorRef, label: filter, size: "small", onKeyDown: (e) => {
                         if (e.key !== "Enter")
                             return;
-                        const name = e.target.value;
-                        if (name === "")
-                            return;
-                        getUsersWith(athena, setUsers, () => {
-                        }, name, "name").catch();
+                        const keyword = e.target.value;
+                        props.search(keyword).then(setUsers).catch((_) => {
+                        });
                         setOpen(true);
-                    }, InputProps: { startAdornment: _jsx(InputAdornment, { position: "start", children: "@" }) } }) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 7 : undefined, children: _jsx(List, { dense: true, children: selectedUsers.map((u, i) => (_jsxs(ListItem, { secondaryAction: _jsx(IconButton, { edge: "end", onClick: () => {
+                    }, InputProps: { startAdornment: _jsx(InputAdornment, { position: "start", children: keywordPrefix }) } }) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 7 : undefined, children: _jsx(List, { dense: true, children: selectedUsers.map((u, i) => (_jsxs(ListItem, { secondaryAction: _jsx(IconButton, { edge: "end", onClick: () => {
                                 const su = new Set(selectedUsers);
                                 su.delete(u);
                                 setSelectedUsers(Array.from(su));
