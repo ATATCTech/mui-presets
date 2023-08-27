@@ -65,23 +65,22 @@ export function InstructionDialog(props) {
 }
 export function SelectUsers(props) {
     const [users, setUsers] = useState([]);
-    const [selectedUsers, setSelectedUsers] = useState([]);
     const [open, setOpen] = useState(false);
     const anchorRef = useRef();
     const filter = props.filter == null ? "Name" : props.filter;
     const keywordPrefix = props.keywordPrefix == null ? "@" : props.keywordPrefix;
-    return (_jsxs(Grid, { container: true, children: [_jsx(Menu, { open: open, onClose: () => setOpen(false), anchorEl: anchorRef.current, children: users.map((u, i) => (JSON.stringify(selectedUsers).includes(JSON.stringify(u)) ? null :
-                    _jsxs(MenuItem, { children: [_jsx(Checkbox, { sx: { ml: -1 }, onChange: () => setSelectedUsers(Array.from(new Set(selectedUsers).add(u))) }), _jsx(Profile, { username: u.displayName, profile: u.profile }), _jsxs(Typography, { marginLeft: 1, children: ["@", u.name] })] }, i))) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 5 : undefined, children: _jsx(TextField, { inputRef: anchorRef, label: filter, size: "small", onKeyDown: (e) => {
+    return (_jsxs(Grid, { container: true, children: [_jsx(Menu, { open: open, onClose: () => setOpen(false), anchorEl: anchorRef.current, children: users.map((u, i) => (JSON.stringify(props.value).includes(JSON.stringify(u)) ? null :
+                    _jsxs(MenuItem, { children: [_jsx(Checkbox, { sx: { ml: -1 }, onChange: () => props.onChange(Array.from(new Set(props.value).add(u))) }), _jsx(Profile, { username: u.displayName, profile: u.profile }), _jsxs(Typography, { marginLeft: 1, children: ["@", u.name] })] }, i))) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 5 : undefined, children: _jsx(TextField, { inputRef: anchorRef, label: filter, size: "small", onKeyDown: (e) => {
                         if (e.key !== "Enter")
                             return;
                         const keyword = e.target.value;
                         props.search(keyword).then(setUsers).catch((_) => {
                         });
                         setOpen(true);
-                    }, InputProps: { startAdornment: _jsx(InputAdornment, { position: "start", children: keywordPrefix }) } }) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 7 : undefined, children: _jsx(List, { dense: true, children: selectedUsers.map((u, i) => (_jsxs(ListItem, { secondaryAction: _jsx(IconButton, { edge: "end", onClick: () => {
-                                const su = new Set(selectedUsers);
+                    }, InputProps: { startAdornment: _jsx(InputAdornment, { position: "start", children: keywordPrefix }) } }) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 7 : undefined, children: _jsx(List, { dense: true, children: props.value.map((u, i) => (_jsxs(ListItem, { secondaryAction: _jsx(IconButton, { edge: "end", onClick: () => {
+                                const su = new Set(props.value);
                                 su.delete(u);
-                                setSelectedUsers(Array.from(su));
+                                props.onChange(Array.from(su));
                             }, children: _jsx(Delete, {}) }), children: [_jsx(ListItemAvatar, { children: _jsx(Avatar, { children: _jsx(Profile, { username: u.displayName, profile: u.profile }) }) }), _jsx(ListItemText, { primary: u.displayName, secondary: "@" + u.name })] }, i))) }) })] }));
 }
 //# sourceMappingURL=components.js.map

@@ -31,7 +31,7 @@ import {
 import {Delete, Lightbulb, Person} from "@mui/icons-material";
 import {MouseEventHandler, ReactNode, useRef, useState} from "react";
 import {
-    AnonymousEventHandler,
+    AnonymousEventHandler, ControlledProps,
     DefaultProps,
     expandAllKeys,
     PropsWithChildren,
@@ -201,9 +201,8 @@ export function SelectUsers(props: {
     filter?: string,
     keywordPrefix?: string,
     horizontal?: boolean
-}) {
+} & ControlledProps<User[]>) {
     const [users, setUsers] = useState<User[]>([]);
-    const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
     const [open, setOpen] = useState(false);
     const anchorRef = useRef<HTMLTextAreaElement>();
     const filter = props.filter == null ? "Name" : props.filter;
@@ -212,10 +211,10 @@ export function SelectUsers(props: {
         <Grid container>
             <Menu open={open} onClose={() => setOpen(false)} anchorEl={anchorRef.current}>
                 {users.map((u, i) => (
-                    JSON.stringify(selectedUsers).includes(JSON.stringify(u)) ? null :
+                    JSON.stringify(props.value).includes(JSON.stringify(u)) ? null :
                         <MenuItem key={i}>
                             <Checkbox sx={{ml: -1}}
-                                      onChange={() => setSelectedUsers(Array.from(new Set(selectedUsers).add(u)))}/>
+                                      onChange={() => props.onChange(Array.from(new Set(props.value).add(u)))}/>
                             <Profile username={u.displayName as string} profile={u.profile as string}/>
                             <Typography marginLeft={1}>@{u.name}</Typography>
                         </MenuItem>
@@ -232,11 +231,11 @@ export function SelectUsers(props: {
             </Grid>
             <Grid item sm={12} md={props.horizontal ? 7 : undefined}>
                 <List dense>
-                    {selectedUsers.map((u, i) => (
+                    {props.value.map((u, i) => (
                         <ListItem key={i} secondaryAction={<IconButton edge="end" onClick={() => {
-                            const su = new Set(selectedUsers);
+                            const su = new Set(props.value);
                             su.delete(u);
-                            setSelectedUsers(Array.from(su));
+                            props.onChange(Array.from(su));
                         }}><Delete/></IconButton>}>
                             <ListItemAvatar>
                                 <Avatar>

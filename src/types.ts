@@ -1,9 +1,11 @@
 import {ReactNode} from "react";
 
 export type AnonymousEventHandler = () => void;
+export type ChangeEvent<T> = (v: T) => void;
 export type PropsWithStatus = { status: string };
 export type PropsWithOpen = { open: boolean };
 export type PropsWithChildren = { children?: ReactNode };
+export type ControlledProps<T> = { value: T, onChange: ChangeEvent<T>};
 export type PropsWithMargin = {
     m?: number,
     mt?: number,
