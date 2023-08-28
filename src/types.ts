@@ -37,7 +37,8 @@ export function expandMarginKeys(props: PropsWithMargin | any): PropsWithMarginF
         marginLeft: props?.ml,
         marginRight: props?.mr,
         marginX: props?.mx,
-        marginY: props?.my
+        marginY: props?.my,
+        ...props
     };
 }
 export type PropsWithPadding = {
@@ -71,7 +72,8 @@ export function expandPaddingKeys(props:PropsWithPadding | any): PropsWithPaddin
         paddingLeft: props?.pl,
         paddingRight: props?.pr,
         paddingX: props?.px,
-        paddingY: props?.py
+        paddingY: props?.py,
+        ...props
     };
 }
 export type PropsWithMarginAndPadding = PropsWithMargin & PropsWithPadding;

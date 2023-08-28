@@ -11,7 +11,8 @@ export function expandMarginKeys(props) {
         marginLeft: props?.ml,
         marginRight: props?.mr,
         marginX: props?.mx,
-        marginY: props?.my
+        marginY: props?.my,
+        ...props
     };
 }
 /**
@@ -27,7 +28,8 @@ export function expandPaddingKeys(props) {
         paddingLeft: props?.pl,
         paddingRight: props?.pr,
         paddingX: props?.px,
-        paddingY: props?.py
+        paddingY: props?.py,
+        ...props
     };
 }
 /**

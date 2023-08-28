@@ -1,7 +1,7 @@
 {
   "name": "@atatctech/mui-presets",
   "type": "module",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": "ATATC",
   "description": "Additional preset components for MUI.",
   "keywords": [
