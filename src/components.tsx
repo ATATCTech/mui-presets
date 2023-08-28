@@ -34,24 +34,24 @@ import {
     AnonymousEventHandler, ControlledProps,
     DefaultProps,
     expandAllKeys,
-    PropsWithChildren,
+    PropsWithChildren, PropsWithMarginAndPadding,
     PropsWithOpen,
     PropsWithStatus
 } from "./types";
 import {User} from "@atatctech/athena-sdk/src/types";
 
-export function Center(props: PropsWithChildren): ReactNode {
+export function Center(props: DefaultProps): ReactNode {
     return (
-        <Box width={1} display="flex" flexDirection="column" alignItems="center" {...props}>
+        <Box width={1} display="flex" flexDirection="column" alignItems="center" {...expandAllKeys(props)}>
             {props.children}
         </Box>
     );
 }
 
-export function Column(props: { children: Iterable<ReactNode> }): ReactNode {
+export function Column(props: { children: Iterable<ReactNode> } & PropsWithMarginAndPadding): ReactNode {
     const [...children] = props.children;
     return (
-        <Stack direction="row" alignItems="center" {...props}>
+        <Stack direction="row" alignItems="center" {...expandAllKeys(props)}>
             {children.slice(0, -1)}
             <Box flexGrow={1}/>
             {children.at(-1)}
@@ -118,9 +118,9 @@ export function PaperAtCenter(props: PropsWithChildren): ReactNode {
 export function MainContainer(props: PropsWithChildren): ReactNode {
     return (
         <Container component="main">
-            <Box marginTop={2} display="flex" flexDirection="column" alignItems="center">
+            <Center mt={2}>
                 {props.children}
-            </Box>
+            </Center>
         </Container>
     );
 }

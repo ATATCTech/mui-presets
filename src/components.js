@@ -4,11 +4,11 @@ import { Delete, Lightbulb, Person } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import { expandAllKeys } from "./types";
 export function Center(props) {
-    return (_jsx(Box, { width: 1, display: "flex", flexDirection: "column", alignItems: "center", ...props, children: props.children }));
+    return (_jsx(Box, { width: 1, display: "flex", flexDirection: "column", alignItems: "center", ...expandAllKeys(props), children: props.children }));
 }
 export function Column(props) {
     const [...children] = props.children;
-    return (_jsxs(Stack, { direction: "row", alignItems: "center", ...props, children: [children.slice(0, -1), _jsx(Box, { flexGrow: 1 }), children.at(-1)] }));
+    return (_jsxs(Stack, { direction: "row", alignItems: "center", ...expandAllKeys(props), children: [children.slice(0, -1), _jsx(Box, { flexGrow: 1 }), children.at(-1)] }));
 }
 export function Copyright(props) {
     return (_jsxs(Typography, { variant: "body2", color: "text.secondary", align: "center", ...expandAllKeys(props), children: ["Powered by ", _jsx(Link, { href: "https://athena2.atatctech.com", color: "inherit", underline: "hover", children: "Athena2" }), ". Copyright \u00A9 ", props.startYear, " - ", new Date().getFullYear(), " ", props.companyName, " All rights reserved."] }));
@@ -33,7 +33,7 @@ export function PaperAtCenter(props) {
             }, children: props.children }) }));
 }
 export function MainContainer(props) {
-    return (_jsx(Container, { component: "main", children: _jsx(Box, { marginTop: 2, display: "flex", flexDirection: "column", alignItems: "center", children: props.children }) }));
+    return (_jsx(Container, { component: "main", children: _jsx(Center, { mt: 2, children: props.children }) }));
 }
 export function ConfirmDialog(props) {
     const [open, setOpen] = useState(false);
