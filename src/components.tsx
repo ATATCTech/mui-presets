@@ -201,7 +201,7 @@ export function SelectUsers(props: {
     filter?: string,
     keywordPrefix?: string,
     horizontal?: boolean
-} & ControlledProps<User[]>) {
+} & ControlledProps<User[]>): ReactNode {
     const [users, setUsers] = useState<User[]>([]);
     const [open, setOpen] = useState(false);
     const anchorRef = useRef<HTMLTextAreaElement>();
