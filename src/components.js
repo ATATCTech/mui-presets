@@ -41,7 +41,7 @@ export function ConfirmDialog(props) {
     return (_jsxs(Box, { children: [_jsxs(Dialog, { open: open, children: [_jsx(DialogTitle, { children: "Confirm to Proceed" }), _jsxs(DialogContent, { children: [props.notice == null ? null :
                                 _jsx(Alert, { severity: "warning", sx: { mb: 1 }, children: props.notice }), _jsxs(DialogContentText, { children: ["Type in ", _jsx("b", { children: props.passcode }), " to proceed."] }), _jsx(TextField, { required: true, autoFocus: true, fullWidth: true, type: "text", placeholder: props.passcode, onChange: (e) => {
                                     setDisabled(e.target?.value !== props.passcode);
-                                }, sx: { mt: 1 } })] }), _jsxs(DialogActions, { children: [_jsx(Button, { variant: "contained", disabled: disabled, onClick: () => {
+                                }, sx: { mt: 1 } })] }), _jsxs(DialogActions, { children: [_jsx(Button, { variant: "outlined", disabled: disabled, onClick: () => {
                                     props.and();
                                     setOpen(false);
                                 }, children: "Confirm" }), _jsx(Button, { onClick: () => {

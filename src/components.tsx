@@ -147,7 +147,7 @@ export function ConfirmDialog(props: {
                     }} sx={{mt: 1}}/>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" disabled={disabled} onClick={() => {
+                    <Button variant="outlined" disabled={disabled} onClick={() => {
                         props.and();
                         setOpen(false);
                     }}>Confirm</Button>
