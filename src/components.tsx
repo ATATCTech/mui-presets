@@ -216,7 +216,7 @@ export function SelectUsers(props: {
                             <Checkbox sx={{ml: -1}}
                                       onChange={() => props.onChange(Array.from(new Set(props.value).add(u)))}/>
                             <Profile username={u.displayName as string} profile={u.profile as string}/>
-                            <Typography marginLeft={1}>@{u.name}</Typography>
+                            <Typography ml={1}>@{u.name}</Typography>
                         </MenuItem>
                 ))}
             </Menu>
