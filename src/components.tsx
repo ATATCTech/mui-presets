@@ -25,7 +25,7 @@ import {
     Paper,
     Snackbar,
     Stack,
-    TextField,
+    TextField, TextFieldVariants,
     Typography
 } from "@mui/material";
 import {Delete, Lightbulb, Person} from "@mui/icons-material";
@@ -198,15 +198,18 @@ export function InstructionDialog(props: DefaultProps): ReactNode {
 
 export function SelectUsers(props: {
     search: (keyword: string) => Promise<User[]>,
-    filter?: string,
+    filter?: "display name" | "name" | "email" | "all",
     keywordPrefix?: string,
-    horizontal?: boolean
+    horizontal?: boolean,
+    variant?: TextFieldVariants,
+    fullWidth?: boolean
 } & ControlledProps<User[]>): ReactNode {
     const [users, setUsers] = useState<User[]>([]);
     const [open, setOpen] = useState(false);
     const anchorRef = useRef<HTMLTextAreaElement>();
     const filter = props.filter == null ? "Name" : props.filter;
     const keywordPrefix = props.keywordPrefix == null ? "@" : props.keywordPrefix;
+    const variant = props.variant == null ? "outlined" : props.variant;
     return (
         <Grid container>
             <Menu open={open} onClose={() => setOpen(false)} anchorEl={anchorRef.current}>
@@ -221,7 +224,8 @@ export function SelectUsers(props: {
                 ))}
             </Menu>
             <Grid item sm={12} md={props.horizontal ? 5 : undefined}>
-                <TextField inputRef={anchorRef} label={filter} size="small" onKeyDown={(e) => {
+                <TextField variant={variant} inputRef={anchorRef} label={filter} size="small"
+                           fullWidth={props.fullWidth} onKeyDown={(e) => {
                     if (e.key !== "Enter") return;
                     const keyword = (e.target as HTMLTextAreaElement).value;
                     props.search(keyword).then(setUsers).catch((_) => {

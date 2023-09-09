@@ -69,8 +69,9 @@ export function SelectUsers(props) {
     const anchorRef = useRef();
     const filter = props.filter == null ? "Name" : props.filter;
     const keywordPrefix = props.keywordPrefix == null ? "@" : props.keywordPrefix;
+    const variant = props.variant == null ? "outlined" : props.variant;
     return (_jsxs(Grid, { container: true, children: [_jsx(Menu, { open: open, onClose: () => setOpen(false), anchorEl: anchorRef.current, children: users.map((u, i) => (JSON.stringify(props.value).includes(JSON.stringify(u)) ? null :
-                    _jsxs(MenuItem, { children: [_jsx(Checkbox, { sx: { ml: -1 }, onChange: () => props.onChange(Array.from(new Set(props.value).add(u))) }), _jsx(Profile, { username: u.displayName, profile: u.profile }), _jsxs(Typography, { marginLeft: 1, children: ["@", u.name] })] }, i))) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 5 : undefined, children: _jsx(TextField, { inputRef: anchorRef, label: filter, size: "small", onKeyDown: (e) => {
+                    _jsxs(MenuItem, { children: [_jsx(Checkbox, { sx: { ml: -1 }, onChange: () => props.onChange(Array.from(new Set(props.value).add(u))) }), _jsx(Profile, { username: u.displayName, profile: u.profile }), _jsxs(Typography, { ml: 1, children: ["@", u.name] })] }, i))) }), _jsx(Grid, { item: true, sm: 12, md: props.horizontal ? 5 : undefined, children: _jsx(TextField, { variant: variant, inputRef: anchorRef, label: filter, size: "small", fullWidth: props.fullWidth, onKeyDown: (e) => {
                         if (e.key !== "Enter")
                             return;
                         const keyword = e.target.value;
