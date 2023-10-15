@@ -33,7 +33,7 @@ export function PaperAtCenter(props) {
             }, children: props.children }) }));
 }
 export function MainContainer(props) {
-    return (_jsx(Container, { component: "main", children: _jsx(Center, { mt: 2, children: props.children }) }));
+    return (_jsx(Container, { component: "main", children: _jsx(Center, { ...props, children: props.children }) }));
 }
 export function ConfirmDialog(props) {
     const [open, setOpen] = useState(false);

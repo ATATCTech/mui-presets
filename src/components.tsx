@@ -115,10 +115,10 @@ export function PaperAtCenter(props: PropsWithChildren): ReactNode {
     );
 }
 
-export function MainContainer(props: PropsWithChildren): ReactNode {
+export function MainContainer(props: PropsWithChildren & PropsWithMarginAndPadding): ReactNode {
     return (
         <Container component="main">
-            <Center mt={2}>
+            <Center {...props}>
                 {props.children}
             </Center>
         </Container>
