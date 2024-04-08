@@ -48,7 +48,7 @@ export function Center(props: DefaultProps): ReactNode {
     );
 }
 
-export function Column(props: { children: Iterable<ReactNode> } & PropsWithMarginAndPadding): ReactNode {
+export function Row(props: { children: Iterable<ReactNode> } & PropsWithMarginAndPadding): ReactNode {
     const [...children] = props.children;
     return (
         <Stack direction="row" alignItems="center" {...expandAllKeys(props)}>

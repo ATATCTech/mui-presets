@@ -1,6 +1,6 @@
 export {
     Center,
-    Column,
+    Row,
     Copyright,
     ErrorHint,
     StatusSnackbar,

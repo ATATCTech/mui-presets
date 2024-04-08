@@ -6,7 +6,7 @@ import { expandAllKeys } from "./types";
 export function Center(props) {
     return (_jsx(Box, { width: 1, display: "flex", flexDirection: "column", alignItems: "center", ...expandAllKeys(props), children: props.children }));
 }
-export function Column(props) {
+export function Row(props) {
     const [...children] = props.children;
     return (_jsxs(Stack, { direction: "row", alignItems: "center", ...expandAllKeys(props), children: [children.slice(0, -1), _jsx(Box, { flexGrow: 1 }), children.at(-1)] }));
 }
